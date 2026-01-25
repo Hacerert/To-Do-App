@@ -8,6 +8,7 @@ input{
 button{
     padding: 8px 12px;
     cursor: pointer;
+    background-color: rgb(233, 167, 211);
 }
 li{
     margin-top: 8px;
