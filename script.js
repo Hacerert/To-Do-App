@@ -7,8 +7,19 @@ function ekranaBas(){//ekrana bas fonsk
     liste.innerHTML="";//ekranı temizle
     tasks.forEach(function(gorev,index){//dizi dolaş
         const li=document.createElement("li");//görev için satır
+        const check=document.createElement("input");
+        check.type="checkbox";
+        check.checked=gorev.done;
+        check.addEventListener("change",function(){
+            gorev.done=!gorev.done;
+            localStorage.setItem("tasks",JSON.stringify(tasks));
+            ekranaBas();
+        });
         const span=document.createElement("span");//yazıyı tutacak span
-        span.textContent=gorev;
+        span.textContent=gorev.text;
+        if(gorev.done){
+            span.style.textDecoration="line-through";
+        }
         const deleteBtn=document.createElement("button");//sil butonu
         deleteBtn.textContent="Sil";
         deleteBtn.addEventListener("click",function(){//silme işi
@@ -16,6 +27,7 @@ function ekranaBas(){//ekrana bas fonsk
              localStorage.setItem("tasks", JSON.stringify(tasks));//güncelle
              ekranaBas();//ekrana bir daha yaz
     });
+    li.appendChild(check);
     li.appendChild(span);
         li.appendChild(deleteBtn);//elemanları birleştir
         liste.appendChild(li);
@@ -26,7 +38,7 @@ button.addEventListener("click",function(){//ekle butonu
     if(text===""){//boş mu kontrol
         return;
     }
-    tasks.push(text);//diziye ekle
+    tasks.push({text:text,done:false});//diziye ekle
      localStorage.setItem("tasks", JSON.stringify(tasks));//depoya yaz
      ekranaBas();//yeniden bas
      input.value="";//input temizle
